@@ -9,7 +9,7 @@ import pinbot.config as config
 
 
 intents = nextcord.Intents.default()
-intents.messages = True
+intents.message_content = True
 bot = commands.Bot(intents=intents)
 
 
