@@ -100,7 +100,8 @@ async def pin(interaction: nextcord.Interaction,
 
     await wh.send(**content, username=a.name,
                   avatar_url=a.display_avatar.url, embeds=embeds,
-                  allowed_mentions=nextcord.AllowedMentions().none())
+                  allowed_mentions=nextcord.AllowedMentions().none(),
+                  files=[await a.to_file() for a in message.attachments])
 
     await interaction.send(f"Message @ {message.jump_url} pinned")
 
