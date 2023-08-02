@@ -2,7 +2,7 @@ import os
 import json
 import nextcord
 from nextcord.ext import commands
-from nextcord.ext.commands import has_permissions
+from nextcord.ext.commands import has_guild_permissions
 
 
 import pinbot.config as config
@@ -47,7 +47,7 @@ async def get_webhook(channel: nextcord.TextChannel):
 
 
 @bot.slash_command()
-@has_permissions(manage_channels=True)
+@has_guild_permissions(manage_channels=True)
 async def setup(interaction: nextcord.Interaction,
                 channel: nextcord.TextChannel = nextcord.SlashOption(
                     description="The channel to use for pins")):
@@ -66,13 +66,12 @@ async def setup(interaction: nextcord.Interaction,
 
 
 @bot.message_command()
-@has_permissions(manage_messages=True)
+@has_guild_permissions(manage_messages=True)
 async def pin(interaction: nextcord.Interaction,
               message: nextcord.Message):
     """Pin a message to the pins channel"""
 
-    p = interaction.channel.permissions_for(interaction.user)
-    if nextcord.Permissions.manage_messages not in p:
+    if not interaction.user.guild_permissions.manage_messages:
         await interaction.send("You do not have permission to pin messages", ephemeral=True)
         return
 
