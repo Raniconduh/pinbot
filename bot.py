@@ -71,6 +71,11 @@ async def pin(interaction: nextcord.Interaction,
               message: nextcord.Message):
     """Pin a message to the pins channel"""
 
+    p = interaction.channel.permissions_for(interaction.user)
+    if nextcord.Permissions.manage_messages not in p:
+        await interaction.send("You do not have permission to pin messages", ephemeral=True)
+        return
+
     channel = ChanDB.get(interaction.guild_id)
     if channel is not None:
         try:
