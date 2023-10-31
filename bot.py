@@ -53,6 +53,10 @@ async def setup(interaction: nextcord.Interaction,
                     description="The channel to use for pins")):
     """Set up a channel to use for server pins"""
 
+    if not interaction.user.guild_permissions.manage_channels:
+        await interaction.send("You do not have permission to set a pins channel", ephemeral=True)
+        return
+
     try:
         await get_webhook(channel)
     except nextcord.Forbidden:
